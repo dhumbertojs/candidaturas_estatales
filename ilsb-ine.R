@@ -359,4 +359,8 @@ for (x in 1:length(year.19)) {
 
 fin <- bind_rows(ags, bc, bcs, camp, cdmx, chis, coah, col, dug, edomex, gto, gro, hgo, jal, mich, mor, nl, oax, pue, qro, qroo, slp, sin, son, tamps, tlax)
 
+fin <- fin %>% 
+  mutate(nombre.completo = paste(Nombre, Apellido, sep = " ")) %>% 
+  select(-c(Nombre, Apellido))
+
 write.csv(fin, paste(out, "candidaturas_estatales.csv", sep = "/"), row.names = F, fileEncoding = "WINDOWS-1252")
