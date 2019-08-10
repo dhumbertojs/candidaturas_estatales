@@ -24,6 +24,8 @@ year.16 <- c("2004", "2007", "2010", "2013", "2015") #Sinaloa
 year.17 <- c("1994", "2000", "2003", "2006", "2009", "2012", "2015") #Sonora
 year.18 <- c("1995", "1998", "2001", "2004", "2007", "2010", "2013", "2016") #Tamaulipas
 year.19 <- c("1998", "2004", "2007", "2010", "2007", "2016") #Tlaxcala
+year.20 <- c("2004", "2007", "2010") #veracruz
+year.21 <- c("1995", "1998", "2001", "2004", "2007", "2010", "2012", "2015") #Yucatán
 
 ags <- data.frame()
 x <- 1
@@ -357,7 +359,33 @@ for (x in 1:length(year.19)) {
   tlax <- bind_rows(tlax, try)  
 }
 
-fin <- bind_rows(ags, bc, bcs, camp, cdmx, chis, coah, col, dug, edomex, gto, gro, hgo, jal, mich, mor, nl, oax, pue, qro, qroo, slp, sin, son, tamps, tlax)
+ver <- data.frame()
+x <- 1
+
+for (x in 1:length(year.20)) {
+  try <- read_excel(paste(inp, "Base-Candidatas-Veracruz.xlsx", sep = "/"), sheet = x)
+  try <- try[-1,]
+  colnames(try) <- names
+  try <- try %>% 
+    mutate(year = year.20[x],
+           estado = "Veracruz")
+  ver <- bind_rows(ver, try)  
+}
+
+yuc <- data.frame()
+x <- 1
+
+for (x in 1:length(year.21)) {
+  try <- read_excel(paste(inp, "Base-Candidatas-Yucatán.xlsx", sep = "/"), sheet = x)
+  try <- try[-1,]
+  colnames(try) <- names
+  try <- try %>% 
+    mutate(year = year.21[x],
+           estado = "Yucatán")
+  yuc <- bind_rows(yuc, try)  
+}
+
+fin <- bind_rows(ags, bc, bcs, camp, cdmx, chis, coah, col, dug, edomex, gto, gro, hgo, jal, mich, mor, nl, oax, pue, qro, qroo, slp, sin, son, tamps, tlax, ver, yuc)
 
 fin <- fin %>% 
   mutate(nombre.completo = paste(Nombre, Apellido, sep = " ")) %>% 
